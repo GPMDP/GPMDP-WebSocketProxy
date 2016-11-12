@@ -18,6 +18,7 @@ module.exports = (client, peers) => {
     const targetPlayer = peers.players.find(c => c.id === client._target);
     if (!targetPlayer) {
       logger.error(`Failed to find player with id: ${client._target}`)
+      client.disconnect('PLAYER_DISCONNECTED')
       return;
     }
     targetPlayer.json(data);
