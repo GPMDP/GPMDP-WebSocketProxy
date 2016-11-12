@@ -1,7 +1,6 @@
 module.exports = (client, peers) => {
   client.on('json', (data) => {
-    if (typeof data.target === 'undefined') return;
-    if (data.initialConnect) {
+    if (data.initialConnect && typeof data.target !== 'undefined') {
       if (client._target) return;
       client._target = data.target;
       logger.info(`Linking remote:client(${client.id}) to player:client(${client._target})`);
@@ -12,9 +11,16 @@ module.exports = (client, peers) => {
       });
       return;
     }
-    const targetPlayer = peers.players.find(c => c.id === data.target);
-    if (!targetPlayer) return;
-    targetPlayer.json(data.payload);
+    if (typeof client._target === 'undefined') {
+      logger.error(`Failed to proxy message from remote:client(${client.id}) to an unknown target`);
+      return;
+    }
+    const targetPlayer = peers.players.find(c => c.id === client._target);
+    if (!targetPlayer) {
+      logger.error(`Failed to find player with id: ${client._target}`)
+      return;
+    }
+    targetPlayer.json(data);
   });
 
   return () => {
