@@ -1,0 +1,19 @@
+{
+  "name": "gpmdp-connect",
+  "version": "1.0.0",
+  "description": "GPMDP Connect Server",
+  "main": "index.js",
+  "author": "Samuel Attard",
+  "license": "MIT",
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "winston": "^2.3.0",
+    "ws": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "watch": "nodemon --watch src src/index.js"
+  }
+}
